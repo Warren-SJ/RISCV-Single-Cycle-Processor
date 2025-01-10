@@ -26,10 +26,10 @@ module ALU_32bit(
     output reg [31:0] result,
     input clk,
     input resetn,
-    input [3:0] control
+    input [2:0] control
     );
     
-    always_ff @ (posedge clk) begin
+    always_ff @ (*) begin
         if (!resetn) begin
             result  <= 32'h00000000;
         end else begin
@@ -40,7 +40,7 @@ module ALU_32bit(
                 3'b011: result <= a | b;
                 3'b100: result <= a & b;
                 3'b101: result <= a << b;
-                3'b110: result <= a << b;
+                3'b110: result <= a >> b;
                 3'b111: result <= a < b ? 1 : 0;
                 default: result <= 32'h00000000;
             endcase

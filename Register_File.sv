@@ -33,7 +33,10 @@ module Register_File(
     );
     
     reg [31:0] registers [31:0];
-    
+    initial begin
+        registers[0] = 32'h00000000;
+        registers[1] = 32'h00000008;
+    end
     always_ff @ (posedge clk) begin
         if (!resetn) begin
             rs1_data  <= 32'h00000000;

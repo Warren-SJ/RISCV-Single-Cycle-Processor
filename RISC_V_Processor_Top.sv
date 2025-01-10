@@ -39,20 +39,29 @@ module RISC_V_Processor_Top(
     wire [31:0] rs1_data;
     wire [31:0] rs2_data;
     wire [31:0] rd_data;
+    wire [4:0] rs1_address;
+    wire [4:0] rs2_address;
+    wire [4:0] rd_address;
+    wire reg_write;
     
     //ALU wires
     wire [31:0] alu_input_1;
     wire [31:0] alu_input_2;
     wire [31:0] alu_output;
+    wire [2:0] alu_operation;
+    
+    //Immediate
+    wire [31:0]rs2_data_or_immediate;
     
     PC PC(
-        .inst_addr_in(PC_current),
-        .inst_addr_out(PC_next),
+        .inst_addr_in(PC_next),
+        .inst_addr_out(PC_current),
         .clk(clk),
         .resetn(resetn)
     );
+    
     Instruction_Memory Instruction_Memory(
-        .adddress(PC_next),
+        .adddress(PC_current),
         .instruction(instruction),
         .clk(clk),
         .resetn(resetn)
@@ -67,25 +76,43 @@ module RISC_V_Processor_Top(
     );
     
     Register_File Register_File(
-        .rs1(),
-        .rs2(),
-        .rd(),
+        .rs1(rs1_address),
+        .rs2(rs2_address),
+        .rd(rd_address),
         .rs1_data(rs1_data),
         .rs2_data(rs2_data),
-        .write_data(),
+        .write_data(rd_data),
+        .write_enable(reg_write),
         .clk(clk),
         .resetn(resetn)
     );
     
     ALU_32bit ALU_32bit(
-        .a(alu_input_1),
-        .b(alu_input_2),
-        .result(alu_output),
+        .a(rs1_data),
+        .b(rs2_data_or_immediate),
+        .result(rd_data),
         .clk(clk),
-        .resetn(reset_n),
-        .control()
+        .resetn(resetn),
+        .control(alu_operation)
     );
     
-    assign rs1_data = alu_input_1;
-    assign rs2_data = alu_input_2;
+    Control_Unit Control_Unit(
+        .instruction(instruction),
+        .reg_write(reg_write),
+        .rs1(rs1_address),
+        .rs2(rs2_address),
+        .rd(rd_address),
+        .alu_op(alu_operation),
+        .clk(clk),
+        .resetn(clk)
+    );
+    
+    Two_One_Mux reg_or_immediate(
+        .sel(instruction[5]),
+        .a(immediate),
+        .b(rs2_data),
+        .out(rs2_data_or_immediate)
+    );
+
+    
 endmodule
