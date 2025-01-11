@@ -52,11 +52,13 @@ module RISC_V_Processor_Top(
     
     //Immediate
     wire [31:0]rs2_data_or_immediate;
+    wire limit_immediate;
+    wire [31:0] limited_immediate;
+    wire [31:0] immediate;
     
     PC PC(
         .inst_addr_in(PC_next),
         .inst_addr_out(PC_current),
-        .clk(clk),
         .resetn(resetn)
     );
     
@@ -71,7 +73,6 @@ module RISC_V_Processor_Top(
         .a(PC_current),
         .b(32'h00000004),
         .result(PC_next),
-        .clk(clk),
         .resetn(resetn)
     );
     
@@ -91,7 +92,6 @@ module RISC_V_Processor_Top(
         .a(rs1_data),
         .b(rs2_data_or_immediate),
         .result(rd_data),
-        .clk(clk),
         .resetn(resetn),
         .control(alu_operation)
     );
@@ -103,16 +103,22 @@ module RISC_V_Processor_Top(
         .rs2(rs2_address),
         .rd(rd_address),
         .alu_op(alu_operation),
-        .clk(clk),
-        .resetn(clk)
+        .immediate(immediate),
+        .limit_immediate(limit_immediate),
+        .resetn(resetn)
     );
     
     Two_One_Mux reg_or_immediate(
         .sel(instruction[5]),
-        .a(immediate),
+        .a(limited_immediate),
         .b(rs2_data),
         .out(rs2_data_or_immediate)
     );
 
+    Immediate_Limiter Immediate_Limiter(
+         .immediate_input(immediate),
+         .limit(limit_immediate),
+         .immediate_output(limited_immediate)
+    );
     
 endmodule

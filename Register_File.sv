@@ -33,22 +33,23 @@ module Register_File(
     );
     
     reg [31:0] registers [31:0];
+    
     initial begin
         registers[0] = 32'h00000000;
-        registers[1] = 32'h00000008;
     end
-    always_ff @ (posedge clk) begin
+    
+    always_comb begin
+        rs1_data = registers[rs1];
+        rs2_data = registers[rs2];
+    end
+    
+    always_ff @(posedge clk) begin
         if (!resetn) begin
-            rs1_data  <= 32'h00000000;
-            rs2_data  <= 32'h00000000;
-        end else begin
-            rs1_data <= registers[rs1];
-            rs2_data <= registers[rs2];
-            if (write_enable) begin
-                if (rd != 32'h00000000) begin
-                    registers[rd] <= write_data;
-                end
-            end
+            for (integer i = 0; i < 32; i = i + 1)
+                registers[i] <= 32'h00000000;
+        end else if (write_enable && rd != 5'b00000) begin
+            registers[rd] <= write_data;
         end
     end
 endmodule
+

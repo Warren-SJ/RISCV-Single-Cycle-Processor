@@ -24,14 +24,13 @@ module Adder_32bit(
     input [31:0] a,
     input [31:0] b,
     output reg [31:0] result,
-    input clk,
     input resetn
     );
-    always_ff @ (posedge clk) begin
+    always @ (*) begin
         if (!resetn) begin
             result  <= 32'h00000000;
         end else begin
-            result = a + b;
+            result <= a + b;
         end
     end
 endmodule

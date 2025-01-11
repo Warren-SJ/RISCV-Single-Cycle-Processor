@@ -24,12 +24,11 @@ module ALU_32bit(
     input [31:0] a,
     input [31:0] b,
     output reg [31:0] result,
-    input clk,
     input resetn,
     input [2:0] control
     );
     
-    always_ff @ (*) begin
+    always @ (*) begin
         if (!resetn) begin
             result  <= 32'h00000000;
         end else begin
