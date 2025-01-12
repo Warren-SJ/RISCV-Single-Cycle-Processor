@@ -49,12 +49,21 @@ module RISC_V_Processor_Top(
     wire [31:0] alu_input_2;
     wire [31:0] alu_output;
     wire [2:0] alu_operation;
+    wire [31:0] alu_result;
     
-    //Immediate
+    //Immediate wires
     wire [31:0]rs2_data_or_immediate;
     wire limit_immediate;
     wire [31:0] limited_immediate;
     wire [31:0] immediate;
+    
+    //Data memory wires
+    wire [31:0] data_write_address;
+    wire [31:0] data_mem_write_data;
+    wire [31:0] data_mem_write_data_corrected;
+    wire [31:0] data_mem_read_data;
+    wire [31:0] data_mem_read_address;
+    wire data_mem_write;
     
     PC PC(
         .inst_addr_in(PC_next),
@@ -91,7 +100,7 @@ module RISC_V_Processor_Top(
     ALU_32bit ALU_32bit(
         .a(rs1_data),
         .b(rs2_data_or_immediate),
-        .result(rd_data),
+        .result(alu_result),
         .resetn(resetn),
         .control(alu_operation)
     );
@@ -105,10 +114,11 @@ module RISC_V_Processor_Top(
         .alu_op(alu_operation),
         .immediate(immediate),
         .limit_immediate(limit_immediate),
-        .resetn(resetn)
+        .resetn(resetn),
+        .data_mem_write(data_mem_write)
     );
     
-    Two_One_Mux reg_or_immediate(
+    Two_One_Mux Reg_or_Immediate(
         .sel(instruction[5]),
         .a(limited_immediate),
         .b(rs2_data),
@@ -119,6 +129,31 @@ module RISC_V_Processor_Top(
          .immediate_input(immediate),
          .limit(limit_immediate),
          .immediate_output(limited_immediate)
+    );
+    
+    
+    Data_Memory Data_Memory(
+        .write_address(data_write_address),
+        .write_en(data_mem_write),
+        .write_data(data_mem_write_data),
+        .read_data(data_mem_read_data),
+        .clk(clk),
+        .resetn(resetn),
+        .read_address(data_mem_read_address)
+    );
+    
+    Load_Generator Load_Generator(
+        .data_input(data_mem_read_data),
+        .control(instruction[14:12]),
+        .data_output(data_mem_write_data_corrected),
+        .resetn(resetn)
+    );
+    
+    Two_One_Mux Alu_or_Load(
+        .sel(instruction[4]),
+        .a(alu_result),
+        .b(data_mem_write_data_corrected),
+        .out(rd_data)
     );
     
 endmodule
