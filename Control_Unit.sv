@@ -30,6 +30,7 @@ module Control_Unit(
     output reg [31:0] immediate,
     output reg limit_immediate,
     output reg data_mem_write,
+    output reg reg_or_immediate,
     input resetn
     );
 
@@ -53,13 +54,15 @@ module Control_Unit(
         .immediate(immediate)
     );
     
-    always @ (*) begin
+    always_comb begin
         if (!resetn) begin
             reg_write  <= 1'b0;
         end else begin
             case (opcode)
                  7'b0110011: begin
                      reg_write <= 1'b1;
+                     data_mem_write <= 1'b0;
+                     reg_or_immediate <= 1'b1;
                     case (func3)
                         3'b000: if (func7 == 7'b0000000)
                                     alu_op <= 3'b000;
@@ -77,6 +80,8 @@ module Control_Unit(
                   end
                   7'b0010011: begin
                     reg_write <= 1'b1;
+                    data_mem_write <= 1'b0;
+                    reg_or_immediate <= 1'b0;
                     case(func3)
                         3'b000: alu_op <= 3'b000;
                         3'b100: alu_op <= 3'b010;
@@ -91,17 +96,26 @@ module Control_Unit(
                   end
                   7'b0000011: begin
                     reg_write <= 1'b1;
+                    data_mem_write <= 1'b0;
                     alu_op <= 3'b000;
+                    reg_or_immediate <= 1'b0;
+                  end
+                  7'b0100011: begin
+                    alu_op <= 3'b000;
+                    data_mem_write <= 1'b1;
+                    reg_write <= 1'b0;
+                    reg_or_immediate <= 1'b0;
                   end
                   default: begin
                                reg_write <=1'b0;
                                alu_op <= 3'b000;
+                               data_mem_write <= 1'b0;
                            end
              endcase
         end
     end
     
-    always @ (*) begin
+    always_comb begin
         if (!resetn) begin
             limit_immediate  <= 1'b0;
         end else begin

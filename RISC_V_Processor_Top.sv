@@ -56,11 +56,11 @@ module RISC_V_Processor_Top(
     wire limit_immediate;
     wire [31:0] limited_immediate;
     wire [31:0] immediate;
+    wire reg_or_immediate;
     
     //Data memory wires
     wire [31:0] data_write_address;
-    wire [31:0] data_mem_write_data;
-    wire [31:0] data_mem_write_data_corrected;
+    wire [31:0] data_mem_read_data_corrected;
     wire [31:0] data_mem_read_data;
     wire [31:0] data_mem_read_address;
     wire data_mem_write;
@@ -116,11 +116,12 @@ module RISC_V_Processor_Top(
         .immediate(immediate),
         .limit_immediate(limit_immediate),
         .resetn(resetn),
-        .data_mem_write(data_mem_write)
+        .data_mem_write(data_mem_write),
+        .reg_or_immediate(reg_or_immediate)
     );
     
     Two_One_Mux Reg_or_Immediate(
-        .sel(instruction[5]),
+        .sel(reg_or_immediate),
         .a(limited_immediate),
         .b(rs2_data),
         .out(rs2_data_or_immediate)
@@ -132,11 +133,11 @@ module RISC_V_Processor_Top(
          .immediate_output(limited_immediate)
     );
     
-    
     Data_Memory Data_Memory(
-        .write_address(data_write_address),
+        .write_address(alu_result),
         .write_en(data_mem_write),
-        .write_data(data_mem_write_data),
+        .write_data(rs2_data),
+        .write_command(instruction[13:12]),
         .read_data(data_mem_read_data),
         .clk(clk),
         .resetn(resetn),
@@ -146,13 +147,13 @@ module RISC_V_Processor_Top(
     Load_Generator Load_Generator(
         .data_input(data_mem_read_data),
         .control(instruction[14:12]),
-        .data_output(data_mem_write_data_corrected),
+        .data_output(data_mem_read_data_corrected),
         .resetn(resetn)
     );
     
     Two_One_Mux Alu_or_Load(
         .sel(instruction[4]),
-        .a(data_mem_write_data_corrected),
+        .a(data_mem_read_data_corrected),
         .b(alu_result),
         .out(rd_data)
     );

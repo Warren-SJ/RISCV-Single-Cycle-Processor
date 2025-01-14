@@ -26,6 +26,7 @@ module Data_Memory(
     input [31:0] write_data,
     output reg [31:0] read_data,
     input clk,
+    input [1:0] write_command,
     input resetn,
     input [31:0] read_address
     );
@@ -42,6 +43,7 @@ module Data_Memory(
         memory[27] = 8'b10000010;
         memory[28] = 8'b00101010;
     end
+    
     always_ff @ (posedge clk) begin
         if (!resetn) begin
             for (integer  i = 0; i < 128; i = i + 1) begin
@@ -57,10 +59,19 @@ module Data_Memory(
             memory[28] = 8'b00101010;
         end else begin
             if (write_en) begin
-                memory[write_address + 0] <= write_data[7:0];
-                memory[write_address + 1] <= write_data[15:8];
-                memory[write_address + 2] <= write_data[23:16];
-                memory[write_address + 3] <= write_data[31:24];
+                case(write_command)
+                    2'b00:memory[write_address + 0] <= write_data[7:0];
+                    2'b01:begin
+                              memory[write_address + 0] <= write_data[7:0];
+                              memory[write_address + 1] <= write_data[15:8];
+                          end
+                    2'b10:begin
+                              memory[write_address + 0] <= write_data[7:0];
+                              memory[write_address + 1] <= write_data[15:8];
+                              memory[write_address + 2] <= write_data[23:16];
+                              memory[write_address + 3] <= write_data[31:24];    
+                          end                
+                endcase
             end  
         end
     end

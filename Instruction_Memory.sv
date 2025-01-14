@@ -60,11 +60,17 @@ module Instruction_Memory(
         memory[18] <= 8'b10100010;
         memory[19] <= 8'b00110011;
     
-        // slli x5 x4 11
+        // slli x5 x3 1
         memory[20] <= 8'b00000000;
-        memory[21] <= 8'b10110010;
-        memory[22] <= 8'b00010010;
+        memory[21] <= 8'b00010001;
+        memory[22] <= 8'b10010010;
         memory[23] <= 8'b10010011;
+        
+        // sw x5, 20(x1)
+        memory[24] <= 8'b00000000;
+        memory[25] <= 8'b01010000;
+        memory[26] <= 8'b10101010;
+        memory[27] <= 8'b00100011;
     end
     
     always_ff @ (posedge clk) begin
