@@ -29,7 +29,6 @@ module Control_Unit(
     output reg [4:0] rd,
     output reg [31:0] immediate,
     output reg limit_immediate,
-    output reg load_control,
     output reg data_mem_write,
     input resetn
     );
@@ -92,6 +91,7 @@ module Control_Unit(
                   end
                   7'b0000011: begin
                     reg_write <= 1'b1;
+                    alu_op <= 3'b000;
                   end
                   default: begin
                                reg_write <=1'b0;

@@ -28,6 +28,7 @@ module Immediate_Generator(
     always @(*)
         case(instruction)
             4'b00100: immediate <= {{20{immediate_region[24]}}, immediate_region[24:13]};
+            4'b00000: immediate <= {{20{immediate_region[24]}}, immediate_region[24:13]};
             default: immediate <= 32'h00000000;
         endcase
 endmodule

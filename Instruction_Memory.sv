@@ -27,7 +27,7 @@ module Instruction_Memory(
     input resetn
     );
     
-    reg [7:0] memory [1023:0];
+    reg [7:0] memory [127:0];
     
     initial begin
     
@@ -48,11 +48,11 @@ module Instruction_Memory(
         memory[10] <= 8'b11000001;
         memory[11] <= 8'b00010011;
     
-        // and x3 x1 x2
+        // lh x3, 12(x1)
         memory[12]  <= 8'b00000000;
-        memory[13]  <= 8'b00100000;
-        memory[14] <= 8'b11110001;
-        memory[15] <= 8'b10110011;
+        memory[13]  <= 8'b11000000;
+        memory[14] <= 8'b10010001;
+        memory[15] <= 8'b10000011;
     
         // slt x4 x3 x1
         memory[16] <= 8'b00000000;

@@ -68,6 +68,7 @@ module RISC_V_Processor_Top(
     PC PC(
         .inst_addr_in(PC_next),
         .inst_addr_out(PC_current),
+        .clk(clk),
         .resetn(resetn)
     );
     
@@ -139,7 +140,7 @@ module RISC_V_Processor_Top(
         .read_data(data_mem_read_data),
         .clk(clk),
         .resetn(resetn),
-        .read_address(data_mem_read_address)
+        .read_address(alu_result)
     );
     
     Load_Generator Load_Generator(
@@ -151,8 +152,8 @@ module RISC_V_Processor_Top(
     
     Two_One_Mux Alu_or_Load(
         .sel(instruction[4]),
-        .a(alu_result),
-        .b(data_mem_write_data_corrected),
+        .a(data_mem_write_data_corrected),
+        .b(alu_result),
         .out(rd_data)
     );
     
