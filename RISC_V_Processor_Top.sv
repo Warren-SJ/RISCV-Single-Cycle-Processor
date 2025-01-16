@@ -26,8 +26,9 @@ module RISC_V_Processor_Top(
     );
     
     // PC wires
-    wire [31:0] PC_next;
-    wire [31:0] PC_current;
+    wire [31:0] pc_next;
+    wire [31:0] pc_current;
+    wire [31:0] pc_plus_four;
     
     // Instruction Memory wires
     wire [31:0] instruction;
@@ -64,25 +65,31 @@ module RISC_V_Processor_Top(
     wire [31:0] data_mem_read_data;
     wire [31:0] data_mem_read_address;
     wire data_mem_write;
+    wire branch_possibility;
+    
+    //Branching wires
+    wire branch_or_not;
+    wire [31:0] rs1_data_or_pc;
+    wire pc_or_immediate;
     
     PC PC(
-        .inst_addr_in(PC_next),
-        .inst_addr_out(PC_current),
+        .inst_addr_in(pc_next),
+        .inst_addr_out(pc_current),
         .clk(clk),
         .resetn(resetn)
     );
     
     Instruction_Memory Instruction_Memory(
-        .adddress(PC_current),
+        .adddress(pc_current),
         .instruction(instruction),
         .clk(clk),
         .resetn(resetn)
     );
     
     Adder_32bit PC_Adder(
-        .a(PC_current),
+        .a(pc_current),
         .b(32'h00000004),
-        .result(PC_next),
+        .result(pc_plus_four),
         .resetn(resetn)
     );
     
@@ -99,7 +106,7 @@ module RISC_V_Processor_Top(
     );
     
     ALU_32bit ALU_32bit(
-        .a(rs1_data),
+        .a(rs1_data_or_pc),
         .b(rs2_data_or_immediate),
         .result(alu_result),
         .resetn(resetn),
@@ -117,7 +124,9 @@ module RISC_V_Processor_Top(
         .limit_immediate(limit_immediate),
         .resetn(resetn),
         .data_mem_write(data_mem_write),
-        .reg_or_immediate(reg_or_immediate)
+        .reg_or_immediate(reg_or_immediate),
+        .rs1_data_or_pc(rs1_data_or_pc_control),
+        .branch_possibility(branch_possibility)
     );
     
     Two_One_Mux Reg_or_Immediate(
@@ -156,6 +165,28 @@ module RISC_V_Processor_Top(
         .a(data_mem_read_data_corrected),
         .b(alu_result),
         .out(rd_data)
+    );
+    
+    Branch_Comparator Branch_Comparator(
+        .rs1(rs1_data),
+        .rs2(rs2_data),
+        .branch_or_not(branch_or_not),
+        .command(instruction[14:12]),
+        .branch_possibility(branch_possibility)
+    );
+    
+    Two_One_Mux PC_plus_four_or_Branch(
+        .sel(branch_or_not),
+        .a(pc_plus_four),
+        .b(alu_result),
+        .out(pc_next)
+    );
+    
+    Two_One_Mux Rs1_or_Pc(
+        .sel(rs1_data_or_pc_control),
+        .a(rs1_data),
+        .b(pc_current),
+        .out(rs1_data_or_pc)
     );
     
 endmodule

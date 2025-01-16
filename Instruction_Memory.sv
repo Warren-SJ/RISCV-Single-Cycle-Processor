@@ -71,6 +71,13 @@ module Instruction_Memory(
         memory[25] <= 8'b01010000;
         memory[26] <= 8'b10101010;
         memory[27] <= 8'b00100011;
+        
+        // blt x3 x5 20
+        memory[28] <= 8'b00000000;
+        memory[29] <= 8'b01010001;
+        memory[30] <= 8'b11001110;
+        memory[31] <= 8'b01100011;
+        
     end
     
     always_ff @ (posedge clk) begin
