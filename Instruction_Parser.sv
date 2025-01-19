@@ -35,4 +35,8 @@ module Instruction_Parser(
     assign func3 = instruction[14:12];
     assign func7 = instruction[31:25];
     assign opcode = instruction[6:0];
+//    if (opcode == 7'b010111)
+//        assign rs1 = 5'b00000;
+//    else
+//        assign rs1 = instruction[19:15];
 endmodule

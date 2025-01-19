@@ -60,7 +60,6 @@ module RISC_V_Processor_Top(
     wire reg_or_immediate;
     
     //Data memory wires
-    wire [31:0] data_write_address;
     wire [31:0] data_mem_read_data_corrected;
     wire [31:0] data_mem_read_data;
     wire [31:0] data_mem_read_address;
@@ -69,8 +68,13 @@ module RISC_V_Processor_Top(
     
     //Branching wires
     wire branch_or_not;
-    wire [31:0] rs1_data_or_pc;
-    wire pc_or_immediate;
+    
+    //Jump wires
+    wire [1:0] alu_or_load_or_pc_plus_four_control;
+    
+    //Upper immediate wires
+    wire [31:0] rs1_data_or_pc_or_zero;
+    wire [1:0] rs1_data_or_pc_or_zero_control;
     
     PC PC(
         .inst_addr_in(pc_next),
@@ -106,7 +110,7 @@ module RISC_V_Processor_Top(
     );
     
     ALU_32bit ALU_32bit(
-        .a(rs1_data_or_pc),
+        .a(rs1_data_or_pc_or_zero),
         .b(rs2_data_or_immediate),
         .result(alu_result),
         .resetn(resetn),
@@ -125,7 +129,8 @@ module RISC_V_Processor_Top(
         .resetn(resetn),
         .data_mem_write(data_mem_write),
         .reg_or_immediate(reg_or_immediate),
-        .rs1_data_or_pc(rs1_data_or_pc_control),
+        .rs1_data_or_pc_or_zero(rs1_data_or_pc_or_zero_control),
+        .alu_or_load_or_pc_plus_four(alu_or_load_or_pc_plus_four_control),
         .branch_possibility(branch_possibility)
     );
     
@@ -160,18 +165,27 @@ module RISC_V_Processor_Top(
         .resetn(resetn)
     );
     
-    Two_One_Mux Alu_or_Load(
-        .sel(instruction[4]),
-        .a(data_mem_read_data_corrected),
-        .b(alu_result),
+    Three_One_Mux Alu_or_Load_or_Pc_plus_four(
+        .sel(alu_or_load_or_pc_plus_four_control),
+        .a(alu_result),
+        .b(data_mem_read_data_corrected),
+        .c(pc_plus_four),
         .out(rd_data)
+    );
+    
+    Three_One_Mux Rs1_data_or_Pc_or_Zero(
+        .sel(rs1_data_or_pc_or_zero_control),
+        .a(rs1_data),
+        .b(pc_current),
+        .c(32'h00000000),
+        .out(rs1_data_or_pc_or_zero)
     );
     
     Branch_Comparator Branch_Comparator(
         .rs1(rs1_data),
         .rs2(rs2_data),
         .branch_or_not(branch_or_not),
-        .command(instruction[14:12]),
+        .command({instruction[2],instruction[14:12]}),
         .branch_possibility(branch_possibility)
     );
     
@@ -182,11 +196,11 @@ module RISC_V_Processor_Top(
         .out(pc_next)
     );
     
-    Two_One_Mux Rs1_or_Pc(
-        .sel(rs1_data_or_pc_control),
-        .a(rs1_data),
-        .b(pc_current),
-        .out(rs1_data_or_pc)
-    );
+//    Two_One_Mux Rs1_or_Pc(
+//        .sel(rs1_data_or_pc_control),
+//        .a(rs1_data),
+//        .b(pc_current),
+//        .out(rs1_data_or_pc)
+//    );
     
 endmodule

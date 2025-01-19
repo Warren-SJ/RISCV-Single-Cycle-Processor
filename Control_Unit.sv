@@ -31,8 +31,9 @@ module Control_Unit(
     output reg limit_immediate,
     output reg data_mem_write,
     output reg reg_or_immediate,
-    output reg rs1_data_or_pc,
     output reg branch_possibility,
+    output reg [1:0] rs1_data_or_pc_or_zero,
+    output reg [1:0] alu_or_load_or_pc_plus_four,
     input resetn
     );
 
@@ -65,9 +66,10 @@ module Control_Unit(
                      reg_write <= 1'b1;
                      data_mem_write <= 1'b0;
                      reg_or_immediate <= 1'b1;
-                     rs1_data_or_pc <= 1'b0;
                      branch_possibility <= 1'b0;
-                    case (func3)
+                     rs1_data_or_pc_or_zero <= 2'b00;
+                     alu_or_load_or_pc_plus_four <= 2'b00;
+                     case (func3)
                         3'b000: if (func7 == 7'b0000000)
                                     alu_op <= 3'b000;
                                 else if (func7 == 7'b0010100)
@@ -86,8 +88,9 @@ module Control_Unit(
                     reg_write <= 1'b1;
                     data_mem_write <= 1'b0;
                     reg_or_immediate <= 1'b0;
-                    rs1_data_or_pc <= 1'b0;
                     branch_possibility <= 1'b0;
+                    rs1_data_or_pc_or_zero <= 2'b00;
+                    alu_or_load_or_pc_plus_four <= 2'b00;
                     case(func3)
                         3'b000: alu_op <= 3'b000;
                         3'b100: alu_op <= 3'b010;
@@ -105,32 +108,72 @@ module Control_Unit(
                     data_mem_write <= 1'b0;
                     alu_op <= 3'b000;
                     reg_or_immediate <= 1'b0;
-                    rs1_data_or_pc <= 1'b0;
                     branch_possibility <= 1'b0;
+                    rs1_data_or_pc_or_zero <= 2'b00;
+                    alu_or_load_or_pc_plus_four <= 2'b01;
                   end
                   7'b0100011: begin
                     alu_op <= 3'b000;
                     data_mem_write <= 1'b1;
                     reg_write <= 1'b0;
                     reg_or_immediate <= 1'b0;
-                    rs1_data_or_pc <= 1'b0;
                     branch_possibility <= 1'b0;
+                    rs1_data_or_pc_or_zero <= 2'b00;
+                    alu_or_load_or_pc_plus_four <= 2'b00;
                   end
                   7'b1100011: begin
                     alu_op <= 3'b000;
                     data_mem_write <= 1'b0;
                     reg_write <= 1'b0;
                     reg_or_immediate <= 1'b0;
-                    rs1_data_or_pc <= 1'b1;
                     branch_possibility <= 1'b1;
+                    rs1_data_or_pc_or_zero <= 2'b01;
+                    alu_or_load_or_pc_plus_four <= 2'b00;
+                  end
+                  7'b1101111: begin
+                    alu_op <= 3'b000;
+                    data_mem_write <= 1'b0;
+                    reg_write <= 1'b1;
+                    reg_or_immediate <= 1'b0;
+                    branch_possibility <= 1'b1;
+                    rs1_data_or_pc_or_zero <= 2'b01;
+                    alu_or_load_or_pc_plus_four <= 2'b10;
+                  end
+                  7'b1100111: begin
+                    alu_op <= 3'b000;
+                    data_mem_write <= 1'b0;
+                    reg_write <= 1'b1;
+                    reg_or_immediate <= 1'b0;
+                    branch_possibility <= 1'b1;
+                    rs1_data_or_pc_or_zero <= 2'b01;
+                    alu_or_load_or_pc_plus_four <= 2'b10;
+                  end
+                  7'b0110111: begin
+                    alu_op <= 3'b000;
+                    data_mem_write <= 1'b0;
+                    reg_write <= 1'b1;
+                    reg_or_immediate <= 1'b0;
+                    branch_possibility <= 1'b0;
+                    rs1_data_or_pc_or_zero <= 2'b10;
+                    alu_or_load_or_pc_plus_four <= 2'b00;
+                  end
+                  7'b0010111: begin
+                    alu_op <= 3'b000;
+                    data_mem_write <= 1'b0;
+                    reg_write <= 1'b1;
+                    reg_or_immediate <= 1'b0;
+                    branch_possibility <= 1'b0;
+                    rs1_data_or_pc_or_zero <=2'b01;
+                    alu_or_load_or_pc_plus_four <= 2'b00;
                   end
                   default: begin
                                reg_write <=1'b0;
                                alu_op <= 3'b000;
                                data_mem_write <= 1'b0;
                                reg_or_immediate <= 1'b0;
-                               rs1_data_or_pc <= 1'b0;
                                branch_possibility <= 1'b0;
+                               rs1_data_or_pc_or_zero <=2'b00;
+                               alu_or_load_or_pc_plus_four <= 2'b00;
                            end
              endcase
         end
