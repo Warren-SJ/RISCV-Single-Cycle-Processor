@@ -28,6 +28,9 @@ After installing gtkwave, run the following command to open the waveform:
 cd/mnt/path_to_your_project_folder
 gtkwave RISC_V_Processor_Top.vcd
 ```
+
+Note: To change the instructions, change them in `Instruction_Memory.sv`. To obtain instructions, refer to [this](https://luplab.gitlab.io/rvcodecjs/).
+
 ![Image of the simulation](Simulation.png)
 
 ### Instructions for use: FPGA Implementation
