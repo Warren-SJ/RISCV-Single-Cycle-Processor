@@ -18,14 +18,14 @@ git clone https://github.com/Warren-SJ/RISCV-Single-Cycle-Processor.git
 
 In order to view the simulation waveform, it is recommended to use gtkwave or any other waveform viewer. To use gtkwave on Windows, it is required to use Windows Subsystem for Linux (WSL). Instructions can be found [here](https://learn.microsoft.com/en-us/windows/wsl/install).
 
-Next, run the following command in the WSL terminal:
+Next, run the following command in the Linux terminal:
 ```bash
 sudo apt-get install gtkwave
 ```
 
 After installing gtkwave, run the following command to open the waveform:
 ```bash
-cd/mnt/path_to_your_project_folder
+cd /mnt/path_to_your_project_folder
 gtkwave RISC_V_Processor_Top.vcd
 ```
 
