@@ -46,9 +46,6 @@ module RISC_V_Processor_Top(
     // Instruction Memory wires
     wire [31:0] instruction;
     
-    // PC Adder wires
-    wire [31:0] PC_current_plus_four;
-    
     // Register file wires
     wire [31:0] rs1_data;
     wire [31:0] rs2_data;
@@ -59,11 +56,8 @@ module RISC_V_Processor_Top(
     wire reg_write;
     
     //ALU wires
-    wire [31:0] alu_input_1;
-    wire [31:0] alu_input_2;
-    wire [31:0] alu_output;
     wire [2:0] alu_operation;
-	 wire [31:0] alu_result;
+	wire [31:0] alu_result;
     
     //Immediate wires
     wire [31:0]rs2_data_or_immediate;
@@ -75,7 +69,6 @@ module RISC_V_Processor_Top(
     //Data memory wires
     wire [31:0] data_mem_read_data_corrected;
     wire [31:0] data_mem_read_data;
-    wire [31:0] data_mem_read_address;
     wire data_mem_write;
     wire branch_possibility;
     
