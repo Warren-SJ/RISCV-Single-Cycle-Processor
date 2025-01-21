@@ -31,7 +31,7 @@ module Data_Memory(
     input [31:0] read_address
     );
     
-    reg [7:0] memory [127:0];
+    reg [7:0] memory [63:0];
     
     initial begin
         memory[0] = 8'b10101010;
@@ -46,7 +46,7 @@ module Data_Memory(
     
     always_ff @ (posedge clk) begin
         if (!resetn) begin
-            for (integer  i = 0; i < 128; i = i + 1) begin
+            for (integer  i = 0; i < 64; i = i + 1) begin
                 memory[i] = 8'h00;
             end
             memory[0] = 8'b10101010;

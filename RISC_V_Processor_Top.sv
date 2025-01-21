@@ -23,15 +23,20 @@
 module RISC_V_Processor_Top(
     input clk,
     input resetn,
-	 output reg [6:0] hex0,
-	 output reg [6:0] hex1,
-	 output reg [6:0] hex2,
-	 output reg [6:0] hex3,
-	 output reg [6:0] hex4,
-	 output reg [6:0] hex5,
-	 output reg [6:0] hex6,
-	 output reg [6:0] hex7
+    input select_output,
+	output reg [6:0] hex0,
+	output reg [6:0] hex1,
+	output reg [6:0] hex2,
+	output reg [6:0] hex3,
+	output reg [6:0] hex4,
+	output reg [6:0] hex5,
+	output reg [6:0] hex6,
+	output reg [6:0] hex7
     );
+    
+    // Output
+    wire [31:0] output_value;
+    
     
     // PC wires
     wire [31:0] pc_next;
@@ -204,19 +209,18 @@ module RISC_V_Processor_Top(
         .out(pc_next)
     );
     
-	
 	hex_decoder u_hex0 (
-		.bin(alu_result[3:0]),   
+		.bin(output_value[3:0]),   
 		.seg(hex0)
 	);
 	
 	hex_decoder u_hex1 (
-		.bin(alu_result[7:4]),   
+		.bin(output_value[7:4]),   
 		.seg(hex1)
 	);
 	
 	hex_decoder u_hex2 (
-		.bin(alu_result[11:8]),  
+		.bin(output_value[11:8]),  
 		.seg(hex2)
 	);
 	
@@ -226,22 +230,29 @@ module RISC_V_Processor_Top(
 	);
 	
 	hex_decoder u_hex4 (
-		.bin(alu_result[19:16]), 
+		.bin(output_value[19:16]), 
 		.seg(hex4)
 	);
 	hex_decoder u_hex5 (
-		.bin(alu_result[23:20]), 
+		.bin(output_value[23:20]), 
 		.seg(hex5)
 	);
 	
 	hex_decoder u_hex6 (
-		.bin(alu_result[27:24]), 
+		.bin(output_value[27:24]), 
 		.seg(hex6)
 	);
 	
 	hex_decoder u_hex7 (
-		.bin(alu_result[31:28]), 
+		.bin(output_value[31:28]), 
 		.seg(hex7)
 	);
+	
+	Two_One_Mux Output_Select(
+        .sel(select_output),
+        .a(alu_result),
+        .b(rd_data),
+        .out(output_value)
+    );
     
 endmodule
