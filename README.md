@@ -44,7 +44,7 @@ git clone https://github.com/Warren-SJ/RISCV-Single-Cycle-Processor.git
 
 3. Add all the `.sv` files to the project
 
-4. Set the top simulation module to `RISCV_Processor_Top.sv`
+4. Set the top module to `RISCV_Processor_Top.sv`
 
 5. Run the synthesis and implementation process
 
@@ -53,6 +53,6 @@ git clone https://github.com/Warren-SJ/RISCV-Single-Cycle-Processor.git
 7. Program the FPGA
 
 Notes:
-- The clock is mapped to `KEY0` and reset is mapped to `KEY3`. The reason for clock mapping, is to be able to observe the results on the 7-segment display.
+- The clock is mapped to `KEY0` and reset is mapped to `KEY3`. The reason for the clock to be mapped to a button, is to be able to observe the results on the 7-segment display.
 - To reset, press `KEY3` and while pressing it, press `KEY0`.
 - The 7-segment display will show the output of the ALU operation or the value being written to register. This may be changed by using `SW17`.
