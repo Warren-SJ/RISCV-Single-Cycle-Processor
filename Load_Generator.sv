@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/12/2025 10:35:30 PM
-// Design Name: 
+// Design Name: Load Generator
 // Module Name: Load_Generator
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Generates load data based on the control signal
 // 
 // Dependencies: 
 // 

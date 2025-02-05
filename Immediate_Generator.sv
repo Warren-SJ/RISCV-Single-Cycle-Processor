@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/10/2025 11:12:08 PM
-// Design Name: 
+// Design Name: Immediate Generator
 // Module Name: Immediate_Generator
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Immediate Generator for the processor. Generates immediates based on the instruction
 // 
 // Dependencies: 
 // 

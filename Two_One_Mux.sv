@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/07/2025 11:55:15 PM
-// Design Name: 
+// Design Name: Two One Mux
 // Module Name: Two_One_Mux
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: A 2:1 Mux
 // 
 // Dependencies: 
 // 

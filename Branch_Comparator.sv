@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Warren Jayakumar
 // 
 // Create Date: 01/15/2025 11:21:23 PM
-// Design Name: 
+// Design Name: Branch Comparator
 // Module Name: Branch_Comparator
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Module for comparing 2 values and deviding whether to branch or not
 // 
 // Dependencies: 
 // 

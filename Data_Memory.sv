@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/07/2025 11:18:06 PM
-// Design Name: 
+// Design Name: Data Memory
 // Module Name: Data_Memory
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Data memory for the processor. Byte addressable. 512 bytes can be stored
 // 
 // Dependencies: 
 // 

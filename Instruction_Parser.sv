@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/08/2025 11:13:22 PM
-// Design Name: 
+// Design Name: Instruction Parser
 // Module Name: Instruction_Parser
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Takes the instruction as input and parses it into its components
 // 
 // Dependencies: 
 // 

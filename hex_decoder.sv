@@ -1,3 +1,24 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: Warren Jayakumar
+// 
+// Create Date: 01/06/2025 10:59:52 PM
+// Design Name: Hexadecimal Decoder
+// Module Name: hex_decoder
+// Project Name: RISC-V Single Cycle Processor
+// Target Devices: 
+// Tool Versions: 
+// Description: Decodes a 4-bit binary input to a 7-segment output
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 module hex_decoder (
     input  [3:0] bin,  // 4-bit binary input
     output reg [6:0] seg // 7-segment output

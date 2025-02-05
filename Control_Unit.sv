@@ -1,15 +1,15 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Warren Jayakumar
 // 
 // Create Date: 01/08/2025 11:06:00 PM
-// Design Name: 
+// Design Name: Control Unit
 // Module Name: Control_Unit
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Main Control unit of RISC V processor. Parses the instruction and generates control signals
 // 
 // Dependencies: 
 // 

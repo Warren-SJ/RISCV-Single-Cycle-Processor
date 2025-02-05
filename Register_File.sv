@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/06/2025 11:46:20 PM
-// Design Name: 
+// Design Name: Register File
 // Module Name: Register_File
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Register File for the RISC-V Single Cycle Processor
 // 
 // Dependencies: 
 // 

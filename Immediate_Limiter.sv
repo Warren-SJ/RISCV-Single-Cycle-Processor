@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/11/2025 09:27:27 AM
-// Design Name: 
+// Design Name: Immediate Limiter
 // Module Name: Immediate_Limiter
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Decides whether to limit the immediate or not
 // 
 // Dependencies: 
 // 

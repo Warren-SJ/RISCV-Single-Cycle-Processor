@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/16/2025 11:06:57 PM
-// Design Name: 
+// Design Name: Three One Mux
 // Module Name: Three_One_Mux
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: A 3:1 Mux
 // 
 // Dependencies: 
 // 

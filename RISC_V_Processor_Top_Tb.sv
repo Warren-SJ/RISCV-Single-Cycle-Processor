@@ -4,12 +4,12 @@
 // Engineer: 
 // 
 // Create Date: 01/08/2025 11:54:54 PM
-// Design Name: 
+// Design Name: RISC-V Processor Top Testbench
 // Module Name: RISC_V_Processor_Top_Tb
-// Project Name: 
+// Project Name: RISC-V Single Cycle Processor
 // Target Devices: 
 // Tool Versions: 
-// Description: 
+// Description: Testbench for the top module of the RISC-V Processor
 // 
 // Dependencies: 
 // 
